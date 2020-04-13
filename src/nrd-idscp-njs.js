@@ -13,7 +13,7 @@ let
 ;
 
 module.exports = {
-    'enum':   null,
+    'enum':   _enum_,
     'Server': require(`./idscp-server.js`)({'net': net, 'enum': _enum_}),
     'Client': require(`./idscp-client.js`)({'net': net, 'enum': _enum_})
 };
