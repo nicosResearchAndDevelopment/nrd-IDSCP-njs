@@ -1,16 +1,19 @@
-module.exports = ({'net': net, 'enum': _enum_}) => {
+// version 0.1.2
 
-
+module.exports = ({'net': net, 'hrt': hrt, 'enum': _enum_}) => {
 
     class Client {
 
         //region private
+        
         #client = null;
+        #host	= "localhost";
         #port   = 80;
 
         //endregion private
 
-        constructor({'port': port = 80}) {
+        constructor({'host': host = "localhost", 'port': port = 80}) {
+        	this.#host = host;
             this.#port = port;
         } // constructor
 
@@ -19,16 +22,22 @@ module.exports = ({'net': net, 'enum': _enum_}) => {
         connect() {
             return new Promise((resolve, reject) => {
                 try {
-                    this.#client = net.connect({'port': this.#port}, function () {
-                        console.log('connected to server!');
-                    });
+                
+                    this.#client = net.connect(
+	                    {
+	                    	'host': this.#host,
+	                    	'port': this.#port
+	                    },
+	                    () => {
+	                        console.log('connected to server!');
+	                    } // cb
+                    ); // net.connect()
 
-                    this.#client.on('data', function (data) {
+                    this.#client.on('data', (data) => {
                         console.log(data.toString());
-                        //client.end();
                     });
 
-                    this.#client.on('end', function () {
+                    this.#client.on('end', () => {
                         console.log('disconnected from server');
                     });
 

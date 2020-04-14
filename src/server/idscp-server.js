@@ -1,4 +1,6 @@
-module.exports = ({'net': net, 'enum': _enum_}) => {
+// version 0.1.2
+
+module.exports = ({'net': net, 'hrt': hrt, 'enum': _enum_}) => {
 
     class Server {
 
@@ -15,13 +17,13 @@ module.exports = ({'net': net, 'enum': _enum_}) => {
         constructor({'port': port = 80}) {
 
             this.#port   = port;
-            this.#server = net.createServer(function (connection) {
+            this.#server = net.createServer((connection) => {
 
                 console.log('client connected');
                 //TODO: key
                 //this.#connections.set(connection, connection);
 
-                connection.on('end', function () {
+                connection.on('end', () => {
                     console.log('client disconnected');
                 });
 
@@ -39,7 +41,7 @@ module.exports = ({'net': net, 'enum': _enum_}) => {
                 try {
                     this.#server.listen(this.#port, () => {
                         console.log('server is listening');
-                        this.#startedAt = (new Date).valueOf() / 1000;
+                        this.#startedAt = hrt();
                         this.#listening = true;
                         resolve({'message': `idscp server : listening on port <${this.#port}> : <${this.#listening}>`});
                     });

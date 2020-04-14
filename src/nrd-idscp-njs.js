@@ -8,12 +8,13 @@
  ********************/
 
 let
-    net    = require('net'),
-    _enum_ = {}
-;
+    net    	= require('net'),
+    hrt 	= () => ((new Date).valueOf() / 1000)
+    _enum_ 	= {}
+; // let
 
 module.exports = {
     'enum':   _enum_,
-    'Server': require(`./idscp-server.js`)({'net': net, 'enum': _enum_}),
-    'Client': require(`./idscp-client.js`)({'net': net, 'enum': _enum_})
+    'Server': require(`./server/idscp-server.js`)({'net': net, 'hrt': hrt, 'enum': _enum_}),
+    'Client': require(`./client/idscp-client.js`)({'net': net, 'hrt': hrt, 'enum': _enum_})
 };
