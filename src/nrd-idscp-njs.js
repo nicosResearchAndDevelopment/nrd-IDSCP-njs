@@ -1,16 +1,15 @@
-/*******************
-
- description    :
- version        : 0.1.1
+/**********************************************************
+description    :
+ version        : 0.1.3
  see also       : https://industrial-data-space.github.io/trusted-connector-documentation/
+ see also       : https://github.com/International-Data-Spaces-Association/IDS-G/tree/master/core/Technologies/idscp
  author         : jlangkau@nicos-rd.com
-
- ********************/
+ **********************************************************/
 
 let
     net    	= require('net'),
     hrt 	= () => ((new Date).valueOf() / 1000)
-    _enum_ 	= {}
+    _enum_ 	= require(`./enum/enum.js`)
 ; // let
 
 module.exports = {

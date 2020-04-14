@@ -1,3 +1,4 @@
 {
-	"name": "IDS Connector"
+	"name": "IDS Connector",
+	"verbose": 9
 }

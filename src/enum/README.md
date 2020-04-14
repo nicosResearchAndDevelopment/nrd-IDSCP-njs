@@ -1,6 +1,6 @@
 # enum
 
-Given enumerations an constants have to be lifted
+Given enumerations and constants have to be lifted
  to a upper repository in future.
 
 ---

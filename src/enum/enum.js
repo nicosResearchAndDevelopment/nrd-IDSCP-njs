@@ -1,7 +1,13 @@
+/*********************************************************
+ description    : IDS enumerations and constats
+ version        : 0.1.3
+ see also       :
+ author         : jlangkau@nicos-rd.com
+ *********************************************************/
 let _enum_ = {};
 
 Object.defineProperties(_enum_, {
-	'securityProfile': require('./securityProfile/enum.js')
+	'securityProfile': {'value': require('./securityProfile/enum.js')}
 });
 
 Object.seal(_enum_);
