@@ -1,6 +1,6 @@
 /*********************************************************
  description    : IDS enumerations and constats
- version        : 0.1.3
+ version        : 0.1.4
  see also       :
  author         : jlangkau@nicos-rd.com
  *********************************************************/

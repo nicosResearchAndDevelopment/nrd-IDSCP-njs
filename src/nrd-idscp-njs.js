@@ -1,6 +1,6 @@
 /**********************************************************
 description    :
- version        : 0.1.3
+ version        : 0.1.4
  see also       : https://industrial-data-space.github.io/trusted-connector-documentation/
  see also       : https://github.com/International-Data-Spaces-Association/IDS-G/tree/master/core/Technologies/idscp
  author         : jlangkau@nicos-rd.com

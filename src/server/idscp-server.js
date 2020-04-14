@@ -1,6 +1,6 @@
 /*********************************************************
  description    : idscp-server
- version        : 0.1.3
+ version        : 0.1.4
  see also       : https://industrial-data-space.github.io/trusted-connector-documentation/
  see also       : https://github.com/International-Data-Spaces-Association/IDS-G/tree/master/core/Technologies/idscp
  author         : jlangkau@nicos-rd.com
@@ -43,15 +43,29 @@ module.exports = ({'net': net, 'hrt': hrt, 'enum': _enum_}) => {
 
             this.#server = net.createServer((connection) => {
 
-                let message = `${this.#name} : client connected to address <>, family`
-                _verbose(this, 1, "log", message);
+                let
+                    sockname = connection.address(),
+                    message  = `${this.#name} : client connected to address <${sockname.address}>, family <${sockname.family}>, port <${sockname.port}>`
+                ;
+
+                if (this.#connections.get(sockname.address)) {
+                    _verbose(this, 1, "log", message);
+                    message = `idscp : connection <${sockname.address}> already present under connections`;
+                    _verbose(this, 1, "error", `ERROR : <${message}>`);
+                    throw new Error(message);
+                } else {
+                    this.#connections.set(sockname.address, connection);
+                    _verbose(this, 1, "log", message);
+                } // if ()
 
                 connection.on('end', () => {
-                    let message = `${this.#name} : on.end() : client disconnected`
-                    _verbose(this, 5, "log", message);
+                    //let message = `${this.#name} : on.end() : client disconnected`;
+                    //_verbose(this, 5, "log", message);
+                    _verbose(this, 5, "log", `${this.#name} : on.end() : client disconnected`);
                 });
                 connection.write('Hello Universe!');
                 connection.pipe(connection);
+
             }); // net.createServer()
 
         } // constructor
@@ -61,20 +75,21 @@ module.exports = ({'net': net, 'hrt': hrt, 'enum': _enum_}) => {
         listen() {
 
             return new Promise((resolve, reject) => {
+
                 try {
                     this.#server.listen(this.#port, () => {
-
+                        let message;
                         this.#startedAt = hrt();
                         this.#listening = true;
-
-                        let message = `${this.#name} : start listening at <${(new Date).toISOString()}> on port <${this.#port}> : <${this.#listening}>`
+                        message         = `${this.#name} : start <${(new Date).toISOString()}> listening on port <${this.#port}> : <${this.#listening}>`;
                         _verbose(this, 1, "log", message);
-
                         resolve({'message': message});
-                    });
+                    }); // this.#server.listen(
+
                 } catch (jex) {
                     reject(jex);
                 } // try
+
             }); // return P
 
         } // listen ()
@@ -126,7 +141,7 @@ module.exports = ({'net': net, 'hrt': hrt, 'enum': _enum_}) => {
                 0: 0, // REM: silent
                 9: 9  // REM: full verbose
             }
-        }
+        } // verbose
     });
     Object.seal(Server);
 
